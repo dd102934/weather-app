@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <Toolbar />
     <v-content>
       <v-container>
         <nuxt />
@@ -12,7 +13,12 @@
 </template>
 
 <script>
+import Toolbar from '@/components/Toolbar'
+
 export default {
+  components: {
+    Toolbar
+  },
   data() {
     return {
       fixed: false
