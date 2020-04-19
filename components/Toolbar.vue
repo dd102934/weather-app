@@ -5,10 +5,10 @@
         <nuxt-link to="/" class="toolbar-title">天気検索アプリ</nuxt-link>
       </v-toolbar-title>
       <v-btn text>
-        <nuxt-link to="/" class="toolbar-title">リンク</nuxt-link>
+        <nuxt-link to="/" class="toolbar-title">場所から検索</nuxt-link>
       </v-btn>
       <v-btn text>
-        <nuxt-link to="/" class="toolbar-title">リンク</nuxt-link>
+        <nuxt-link to="/map" class="toolbar-title">地図から検索</nuxt-link>
       </v-btn>
     </v-toolbar>
   </div>

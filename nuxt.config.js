@@ -43,6 +43,11 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
+     // Simple usage
+     'nuxt-leaflet',
+
+     // With options
+     ['nuxt-leaflet', { /* module options */ }],
     '@nuxtjs/proxy',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
