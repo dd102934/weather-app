@@ -1,61 +1,81 @@
 <template>
   <div>
-    <v-card>
-      <v-card-title class="headline">
-        気になる場所の天気を調べてみよう！
-      </v-card-title>
-      <v-card-text>
+    <h1 class="headline">
+      気になる場所の天気を調べてみよう！
+    </h1>
+    <v-row no-gutters>
+      <v-col cols="4">
         <v-form ref="form" @submit.prevent v-model="valid">
           <v-text-field
             v-model="place"
             :rules="nameRules"
             :counter="10"
-            label="Place"
+            label="場所"
             required
             @keyup.enter="show(place)"
           ></v-text-field>
           <v-btn color="primary" @click="show(place)">天気</v-btn>
         </v-form>
-        <p>{{ weatherDescription }}</p>
-        <p>
-          <v-btn @click="func1()">fff</v-btn>
-        </p></v-card-text
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col
+        v-for="forecast in forecastData"
+        :key="forecast.index"
+        cols="12"
+        sm="3"
       >
-    </v-card>
+        <v-card class="mx-auto" max-width="400">
+          <v-card-title class="pb-0">{{ forecast.location }}</v-card-title>
+          <v-card-text class="text--primary">
+            <p>経度：{{ forecast.longitude }},緯度：{{ forecast.latitude }}</p>
+            <p>{{ forecast.summary }}</p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
-import { func1 } from '@/providers/forecast.js'
+// import { func1 } from '@/providers/forecast.js'
 export default {
   data: () => ({
     valid: false,
     place: '',
-    weatherDescription: '',
-    nameRules: [(v) => !!v || 'Place is required']
+    index: 0,
+    forecastData: [],
+    nameRules: [(v) => !!v || '調べたい場所を入力してください']
   }),
   methods: {
     async show(place) {
       const { latitude, longitude, location } = await this.getLocationaData(
         place
       )
-      console.log(latitude, longitude, location)
-      const forecastObject = await this.getForecastData(latitude, longitude)
-      this.weatherDescription = forecastObject.summary
+      const forecastObject = await this.getForecastData(
+        latitude,
+        longitude,
+        location
+      )
+      this.forecastData.unshift(forecastObject)
+      console.log(this.forecastData)
     },
-    async getForecastData(latitude, longitude) {
+    async getForecastData(latitude, longitude, location) {
       const url = `/api/forecast/${process.env.DARK_SKY_API_KEY}/${latitude},${longitude}?units=si&lang=ja`
       const forecastData = await this.$axios.$get(url)
       console.log(forecastData)
+      this.index += 1
+      const index = this.index
       const forecastObject = {
+        index,
+        latitude,
+        longitude,
+        location,
         summary: forecastData.daily.data[0].summary,
         temperature: forecastData.currently.temperature,
         precipProbability: forecastData.currently.precipProbability
       }
       return forecastObject
-    },
-    func1() {
-      func1()
     },
     async getLocationaData(place) {
       const url =

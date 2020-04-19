@@ -1,6 +1,6 @@
 <template>
-  <v-layout column justify-center align-center>
-    <v-flex xs12 sm8 md6>
+  <v-layout justify-center align-center>
+    <v-flex>
       <div class="text-center">
         <vuetify-logo />
       </div>
