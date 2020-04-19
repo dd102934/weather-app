@@ -12,15 +12,15 @@
             :counter="10"
             label="Place"
             required
-            @keyup.enter="getLocationInformation(place)"
+            @keyup.enter="show(place)"
           ></v-text-field>
-          <v-btn color="primary" @click="getLocationInformation(place)"
-            >天気</v-btn
-          >
+          <v-btn color="primary" @click="show(place)">天気</v-btn>
         </v-form>
-        <p>{{ latitude }} {{ longitude }}{{ location }}</p>
-        <v-btn @click="a()">fff</v-btn>
-      </v-card-text>
+        <p>{{ weatherDescription }}</p>
+        <p>
+          <v-btn @click="func1()">fff</v-btn>
+        </p></v-card-text
+      >
     </v-card>
   </div>
 </template>
@@ -31,52 +31,53 @@ export default {
   data: () => ({
     valid: false,
     place: '',
-    latitude: 0,
-    longitude: 0,
-    location: '',
+    weatherDescription: '',
     nameRules: [(v) => !!v || 'Place is required']
   }),
   methods: {
-    showWeather() {
-      this.$axios
-        .$get(`/api/forecast/${process.env.DARK_SKY_API_KEY}/37.8267,-122.4233`)
-        .then((response) => {
-          const forecastData = response
-          console.log(forecastData)
-          console.log(
-            forecastData.daily.data[0].summary +
-              ' It is currently ' +
-              forecastData.currently.temperature +
-              ' degress out. There is a ' +
-              forecastData.currently.precipProbability +
-              '% chance of rain.'
-          )
-        })
-        .catch((error) => {
-          console.log(error, 'forecastAPI ERROR!')
-        })
+    async show(place) {
+      const { latitude, longitude, location } = await this.getLocationaData(
+        place
+      )
+      console.log(latitude, longitude, location)
+      const forecastObject = await this.getForecastData(latitude, longitude)
+      this.weatherDescription = forecastObject.summary
     },
-    a() {
+    async getForecastData(latitude, longitude) {
+      const url = `/api/forecast/${process.env.DARK_SKY_API_KEY}/${latitude},${longitude}?units=si&lang=ja`
+      const forecastData = await this.$axios.$get(url)
+      console.log(forecastData)
+      const forecastObject = {
+        summary: forecastData.daily.data[0].summary,
+        temperature: forecastData.currently.temperature,
+        precipProbability: forecastData.currently.precipProbability
+      }
+      return forecastObject
+    },
+    func1() {
       func1()
     },
-    getLocationInformation(place) {
+    async getLocationaData(place) {
       const url =
         'https://api.mapbox.com/geocoding/v5/mapbox.places/' +
         place +
         `.json?access_token=${process.env.MAP_BOX_API_KEY}&limit=1`
+      try {
+        const response = await this.$axios.get(url)
+        const locationData = response.data
+        console.log(response)
 
-      this.$axios
-        .get(url)
-        .then((response) => {
-          console.log(response)
-          const geoLocationdata = response.data
-          this.latitude = geoLocationdata.features[0].center[1]
-          this.longitude = geoLocationdata.features[0].center[0]
-          this.location = geoLocationdata.features[0].place_name
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+        const locationObject = {
+          latitude: locationData.features[0].center[1],
+          longitude: locationData.features[0].center[0],
+          location: locationData.features[0].place_name
+        }
+
+        console.log(locationObject)
+        return locationObject
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }
