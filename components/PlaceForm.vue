@@ -66,7 +66,7 @@ export default {
       console.log(this.forecastData)
     },
     async getForecastData(latitude, longitude) {
-      const url = `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&lang=ja&APPID=${process.env.OPEN_WEATHER_API_KEY}`
+      const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&lang=ja&APPID=${process.env.OPEN_WEATHER_API_KEY}`
       console.log(url)
       try {
         const forecastData = await this.$axios.$get(url)
