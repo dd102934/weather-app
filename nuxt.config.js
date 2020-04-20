@@ -1,11 +1,13 @@
 import colors from 'vuetify/es5/util/colors'
 
-const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
-  router: {
-    base: '/weather-app/'
-  }
-} : {}
-
+const routerBase =
+  process.env.DEPLOY_ENV === 'GH_PAGES'
+    ? {
+        router: {
+          base: '/weather-app/'
+        }
+      }
+    : {}
 
 export default {
   mode: 'spa',
@@ -24,7 +26,9 @@ export default {
         content: process.env.npm_package_description || ''
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/weather-app/favicon.ico' }]
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/weather-app/favicon.ico' }
+    ]
   },
   ...routerBase,
   /*
@@ -51,11 +55,16 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-     // Simple usage
-     'nuxt-leaflet',
+    // Simple usage
+    'nuxt-leaflet',
 
-     // With options
-     ['nuxt-leaflet', { /* module options */ }],
+    // With options
+    [
+      'nuxt-leaflet',
+      {
+        /* module options */
+      }
+    ],
     '@nuxtjs/proxy',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
