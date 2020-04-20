@@ -5,16 +5,18 @@
         場所から天気を調べよう！
       </h1>
       <v-form ref="form" @submit.prevent v-model="valid">
-        <v-text-field
-          v-model="place"
-          :rules="nameRules"
-          :counter="10"
-          label="場所"
-          required
-        ></v-text-field>
-        <v-btn color="primary" :disabled="place == ''" @click="show(place)"
-          >天気</v-btn
-        >
+        <div class="search-button">
+          <v-text-field
+            v-model="place"
+            :rules="nameRules"
+            label="場所"
+            required
+            class="mt-0 pt-0 pl=2"
+          ></v-text-field>
+          <v-btn color="primary" :disabled="place == ''" @click="show(place)"
+            >検索</v-btn
+          >
+        </div>
       </v-form>
     </div>
     <v-row>
@@ -114,6 +116,11 @@ form {
   margin: 10px auto;
   @media screen and (max-width: 480px) {
     width: 60vw;
+  }
+
+  .search-button {
+    display: flex;
+    text-align: right;
   }
 }
 </style>
