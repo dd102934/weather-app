@@ -1,13 +1,10 @@
 import colors from 'vuetify/es5/util/colors'
 
-const routerBase =
-  process.env.DEPLOY_ENV === 'GH_PAGES'
-    ? {
-        router: {
-          base: '/weather-app/'
-        }
-      }
-    : {}
+const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
+  router: {
+    base: '/weather-app/'
+  }
+} : {}
 
 export default {
   mode: 'spa',
