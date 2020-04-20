@@ -4,7 +4,7 @@
       <h1 class="headline font-weight-bold ma-3">
         場所から天気を調べよう！
       </h1>
-      <v-form ref="form" @submit.prevent v-model="valid">
+      <v-form ref="form" v-model="valid" @submit.prevent>
         <div class="search-button">
           <v-text-field
             v-model="place"
@@ -27,7 +27,9 @@
         sm="4"
       >
         <v-card class="mx-auto" max-width="400">
-          <v-card-title class="pb-0">{{ forecast.location }}</v-card-title>
+          <v-card-title class="pb-0"
+            >{{ forecast.country }}:{{ forecast.location }}</v-card-title
+          >
           <v-card-text class="text--primary">
             <p class="text-left mb-0">
               経度：{{ forecast.longitude }},緯度：{{ forecast.latitude }}
@@ -63,8 +65,9 @@ export default {
       this.forecastData.unshift(forecastObject)
       console.log(this.forecastData)
     },
-    async getForecastData(latitude, longitude, location) {
-      const url = `/api/forecast/${process.env.DARK_SKY_API_KEY}/${latitude},${longitude}?units=si&lang=ja`
+    async getForecastData(latitude, longitude) {
+      const url = `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&lang=ja&APPID=${process.env.OPEN_WEATHER_API_KEY}`
+      console.log(url)
       try {
         const forecastData = await this.$axios.$get(url)
         console.log(forecastData)
@@ -74,10 +77,10 @@ export default {
           index,
           latitude,
           longitude,
-          location,
-          summary: forecastData.daily.data[0].summary,
-          temperature: forecastData.currently.temperature,
-          precipProbability: forecastData.currently.precipProbability
+          country: forecastData.city.country,
+          location: forecastData.city.name,
+          summary: forecastData.list[10].weather[0].description,
+          temperature: forecastData.list[10].main.temp
         }
 
         return forecastObject
@@ -97,8 +100,7 @@ export default {
 
         const locationObject = {
           latitude: locationData.features[0].center[1],
-          longitude: locationData.features[0].center[0],
-          location: locationData.features[0].place_name
+          longitude: locationData.features[0].center[0]
         }
 
         console.log(locationObject)

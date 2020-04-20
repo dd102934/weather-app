@@ -40,20 +40,27 @@ export default {
       console.log(this.forecastData)
     },
     async getForecastData(latitude, longitude) {
-      const url = `/api/forecast/${process.env.DARK_SKY_API_KEY}/${latitude},${longitude}?units=si&lang=ja`
-      const forecastData = await this.$axios.$get(url)
-      console.log(forecastData)
-      this.index += 1
-      const index = this.index
-      const forecastObject = {
-        index,
-        latitude,
-        longitude,
-        summary: forecastData.daily.data[0].summary,
-        temperature: forecastData.currently.temperature,
-        precipProbability: forecastData.currently.precipProbability
+      const url = `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&lang=ja&APPID=${process.env.OPEN_WEATHER_API_KEY}`
+      console.log(url)
+      try {
+        const forecastData = await this.$axios.$get(url)
+        console.log(forecastData)
+        this.index += 1
+        const index = this.index
+        const forecastObject = {
+          index,
+          latitude,
+          longitude,
+          country: forecastData.city.country,
+          location: forecastData.city.name,
+          summary: forecastData.list[10].weather[0].description,
+          temperature: forecastData.list[10].main.temp
+        }
+
+        return forecastObject
+      } catch (error) {
+        console.log('hoge')
       }
-      return forecastObject
     }
   }
 }
