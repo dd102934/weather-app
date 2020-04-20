@@ -1,5 +1,11 @@
 import colors from 'vuetify/es5/util/colors'
 
+const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
+  router: {
+    base: '/weather-app/'
+  }
+} : {}
+
 export default {
   mode: 'spa',
   /*
@@ -17,8 +23,9 @@ export default {
         content: process.env.npm_package_description || ''
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/weather-app/favicon.ico' }]
   },
+  routerBase,
   /*
    ** Customize the progress-bar color
    */
