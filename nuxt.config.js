@@ -1,7 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
 
-var baseRoute = env => (env === 'GH_PAGES' ? '/weather-app/' : '/')
-
 export default {
   mode: 'spa',
   /*
@@ -22,9 +20,6 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: baseRoute(process.env.DEPLOY_ENV) + 'favicon.ico' }
     ]
-  },
-  router: {
-    base: baseRoute(process.env.DEPLOY_ENV)
   },
   /*
    ** Customize the progress-bar color
@@ -97,9 +92,8 @@ export default {
       }
     }
   },
-  env: {
-    MAP_BOX_API_KEY: process.env.MAP_BOX_API_KEY,
-    OPEN_WEATHER_API_KEY: process.env.OPEN_WEATHER_API_KEY,
+  generate: {
+    fallback: true
   },
   /*
    ** Build configuration
