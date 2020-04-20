@@ -25,7 +25,7 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/weather-app/favicon.ico' }]
   },
-  routerBase,
+  ...routerBase,
   /*
    ** Customize the progress-bar color
    */
