@@ -95,6 +95,10 @@ export default {
   generate: {
     fallback: true
   },
+  env: {
+    MAP_BOX_API_KEY: process.env.MAP_BOX_API_KEY,
+    OPEN_WEATHER_API_KEY: process.env.OPEN_WEATHER_API_KEY
+  },
   /*
    ** Build configuration
    */
