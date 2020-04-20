@@ -1,16 +1,17 @@
 <template>
   <v-layout>
     <v-flex class="text-center">
-      <leaflet-map />
+      <place-form />
     </v-flex>
   </v-layout>
 </template>
+
 <script>
-import LeafletMap from '~/components/LeafletMap.vue'
+import PlaceForm from '~/components/PlaceForm.vue'
 
 export default {
   components: {
-    LeafletMap
+    PlaceForm
   }
 }
 </script>
