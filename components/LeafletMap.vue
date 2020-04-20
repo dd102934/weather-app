@@ -6,14 +6,16 @@
     <v-row>
       <v-col cols="6" sm="9">
         <no-ssr>
-          <l-map
-            :zoom="zoom"
-            :center="center"
-            @click="setLocationInformation($event)"
-          >
-            <l-tile-layer :url="url"></l-tile-layer>
-            <l-marker :lat-lng="marker"></l-marker>
-          </l-map>
+          <v-card height="100%" width="100%">
+            <l-map
+              :zoom="zoom"
+              :center="center"
+              @click="setLocationInformation($event)"
+            >
+              <l-tile-layer :url="url"></l-tile-layer>
+              <l-marker :lat-lng="marker"></l-marker>
+            </l-map>
+          </v-card>
         </no-ssr>
       </v-col>
       <v-col cols="6" sm="3">
@@ -51,8 +53,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-#map {
-  height: 400px;
-}
-</style>
+<style lang="scss" scoped></style>

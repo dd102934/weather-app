@@ -60,7 +60,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .map-height {
-  height: 350px;
+  height: 60vh;
   p {
     margin-bottom: 0px;
     text-align: left;
