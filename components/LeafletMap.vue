@@ -30,6 +30,7 @@ export default {
   },
   data() {
     return {
+      // 都庁の緯度、経度[35.68, 139.69]
       center: [35.68, 139.69],
       zoom: 5,
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
