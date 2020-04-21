@@ -2,7 +2,7 @@
   <div>
     <div class="text-center">
       <h1 class="headline font-weight-bold ma-3">
-        場所から天気を調べよう！
+        場所から明日の天気を調べよう！
       </h1>
       <v-form ref="form" v-model="valid" @submit.prevent>
         <div class="search-button">
@@ -43,71 +43,22 @@
 </template>
 
 <script>
-// import { func1 } from '@/providers/forecast.js'
 export default {
   data: () => ({
     valid: false,
     place: '',
-    index: 0,
     forecastData: [],
     nameRules: [(v) => !!v || '調べたい場所を入力してください']
   }),
   methods: {
     async show(place) {
-      const { latitude, longitude, location } = await this.getLocationaData(
-        place
-      )
-      const forecastObject = await this.getForecastData(
+      const { latitude, longitude } = await this.$api.getLocationData(place)
+      const forecastObject = await this.$api.getForecastData(
         latitude,
-        longitude,
-        location
+        longitude
       )
       this.forecastData.unshift(forecastObject)
       console.log(this.forecastData)
-    },
-    async getForecastData(latitude, longitude) {
-      const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&lang=ja&APPID=${process.env.OPEN_WEATHER_API_KEY}`
-      console.log(url)
-      try {
-        const forecastData = await this.$axios.$get(url)
-        console.log(forecastData)
-        this.index += 1
-        const index = this.index
-        const forecastObject = {
-          index,
-          latitude,
-          longitude,
-          country: forecastData.city.country,
-          location: forecastData.city.name,
-          summary: forecastData.list[10].weather[0].description,
-          temperature: forecastData.list[10].main.temp
-        }
-
-        return forecastObject
-      } catch (error) {
-        console.log('hoge')
-      }
-    },
-    async getLocationaData(place) {
-      const url =
-        'https://api.mapbox.com/geocoding/v5/mapbox.places/' +
-        place +
-        `.json?access_token=${process.env.MAP_BOX_API_KEY}&limit=1`
-      try {
-        const response = await this.$axios.get(url)
-        const locationData = response.data
-        console.log(response)
-
-        const locationObject = {
-          latitude: locationData.features[0].center[1],
-          longitude: locationData.features[0].center[0]
-        }
-
-        console.log(locationObject)
-        return locationObject
-      } catch (error) {
-        console.log(error)
-      }
     }
   }
 }

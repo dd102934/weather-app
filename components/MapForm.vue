@@ -24,7 +24,6 @@
 </template>
 
 <script>
-// import { func1 } from '@/providers/forecast.js'
 export default {
   props: ['lat', 'lng'],
   data: () => ({
@@ -35,32 +34,12 @@ export default {
   }),
   methods: {
     async show(latitude, longitude) {
-      const forecastObject = await this.getForecastData(latitude, longitude)
+      const forecastObject = await this.$api.getForecastData(
+        latitude,
+        longitude
+      )
       this.forecastData = [forecastObject]
       console.log(this.forecastData)
-    },
-    async getForecastData(latitude, longitude) {
-      const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&lang=ja&APPID=${process.env.OPEN_WEATHER_API_KEY}`
-      console.log(url)
-      try {
-        const forecastData = await this.$axios.$get(url)
-        console.log(forecastData)
-        this.index += 1
-        const index = this.index
-        const forecastObject = {
-          index,
-          latitude,
-          longitude,
-          country: forecastData.city.country,
-          location: forecastData.city.name,
-          summary: forecastData.list[10].weather[0].description,
-          temperature: forecastData.list[10].main.temp
-        }
-
-        return forecastObject
-      } catch (error) {
-        console.log('hoge')
-      }
     }
   }
 }
