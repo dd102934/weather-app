@@ -22,6 +22,7 @@ class API {
       longitude,
       country: forecastData.city.country,
       location: forecastData.city.name,
+      weather: forecastData.list[10].weather[0].main.toLowerCase(),
       summary: forecastData.list[10].weather[0].description,
       temperature: forecastData.list[10].main.temp
     }
