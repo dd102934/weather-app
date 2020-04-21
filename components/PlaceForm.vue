@@ -19,7 +19,7 @@
             color="primary"
             height="40px"
             :disabled="place == ''"
-            @click="show(place)"
+            @click="showForecast(place)"
             >検索</v-btn
           >
         </div>
@@ -62,7 +62,7 @@ export default {
     nameRules: [(v) => !!v || '調べたい場所を入力してください']
   }),
   methods: {
-    async show(place) {
+    async showForecast(place) {
       const { latitude, longitude } = await this.$api.getLocationData(place)
       const forecastObject = await this.$api.getForecastData(
         latitude,

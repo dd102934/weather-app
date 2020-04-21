@@ -7,7 +7,9 @@
       <p class="mt-4">緯度：{{ lat }}</p>
       <p>経度：{{ lng }}</p>
     </div>
-    <v-btn class="mt-4" color="primary" @click="show(lat, lng)">検索</v-btn>
+    <v-btn class="mt-4" color="primary" @click="showForecast(lat, lng)"
+      >検索</v-btn
+    >
     <v-row>
       <v-col v-for="forecast in forecastData" :key="forecast.index" cols="12">
         <v-card class="mx-auto" max-width="400">
@@ -40,7 +42,7 @@ export default {
     nameRules: [(v) => !!v || '調べたい場所を入力してください']
   }),
   methods: {
-    async show(latitude, longitude) {
+    async showForecast(latitude, longitude) {
       const forecastObject = await this.$api.getForecastData(
         latitude,
         longitude
