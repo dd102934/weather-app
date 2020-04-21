@@ -12,6 +12,13 @@
       <v-col v-for="forecast in forecastData" :key="forecast.index" cols="12">
         <v-card class="mx-auto" max-width="400">
           <v-card-title class="pb-0">天気情報</v-card-title>
+          <v-img
+            class="white--text align-end"
+            max-height="230px"
+            contain
+            :src="require(`@/assets/images/${forecast.weather}.png`)"
+          >
+          </v-img>
           <v-card-text class="text--primary">
             <p>経度：{{ forecast.longitude }}</p>
             <p>緯度：{{ forecast.latitude }}</p>

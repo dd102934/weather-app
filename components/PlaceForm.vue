@@ -10,10 +10,16 @@
             v-model="place"
             :rules="nameRules"
             label="場所"
+            height="38px"
+            dense
             required
             class="mt-0 pt-0 pl=2"
           ></v-text-field>
-          <v-btn color="primary" :disabled="place == ''" @click="show(place)"
+          <v-btn
+            color="primary"
+            height="40px"
+            :disabled="place == ''"
+            @click="show(place)"
             >検索</v-btn
           >
         </div>
@@ -24,16 +30,21 @@
         v-for="forecast in forecastData"
         :key="forecast.index"
         cols="12"
-        sm="4"
+        sm="3"
       >
         <v-card class="mx-auto" max-width="400">
           <v-card-title class="pb-0"
-            >{{ forecast.country }}:{{ forecast.location }}</v-card-title
+            >場所：{{ forecast.location }}</v-card-title
           >
+          <v-img
+            class="white--text align-end"
+            max-height="230px"
+            contain
+            :src="require(`@/assets/images/${forecast.weather}.png`)"
+          >
+          </v-img>
           <v-card-text class="text--primary">
-            <p class="text-left mb-0">
-              経度：{{ forecast.longitude }},緯度：{{ forecast.latitude }}
-            </p>
+            <p class="text-left mb-0">国：{{ forecast.country }}</p>
             <p class="text-left mb-0">{{ forecast.summary }}</p>
           </v-card-text>
         </v-card>
