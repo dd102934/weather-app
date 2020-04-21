@@ -14,6 +14,7 @@
             dense
             required
             class="mt-0 pt-0 pl=2"
+            @keyup.enter="showForecast(place)"
           ></v-text-field>
           <v-btn
             color="primary"
@@ -63,6 +64,9 @@ export default {
   }),
   methods: {
     async showForecast(place) {
+      if (place === '') {
+        return
+      }
       const { latitude, longitude } = await this.$api.getLocationData(place)
       const forecastObject = await this.$api.getForecastData(
         latitude,
