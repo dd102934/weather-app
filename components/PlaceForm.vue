@@ -51,6 +51,23 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-snackbar v-model="snackbar" :top="true" :timeout="snackbarTimeout">
+      {{ snackbarMessage }}
+      <v-btn dark text @click="snackbar = false">閉じる</v-btn>
+    </v-snackbar>
+    <v-dialog v-model="dialog" max-width="290">
+      <v-card>
+        <v-card-title class="headline grey lighten-2" primary-title
+          >エラーが発生ました</v-card-title
+        >
+        <v-card-text py-5>{{ errorMessage }}</v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="dialog = false">閉じる</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -60,20 +77,37 @@ export default {
     valid: false,
     place: '',
     forecastData: [],
-    nameRules: [(v) => !!v || '調べたい場所を入力してください']
+    nameRules: [(v) => !!v || '調べたい場所を入力してください'],
+    snackbar: false,
+    snackbarMessage: '',
+    snackbarTimeout: 1000,
+    dialog: false,
+    errorMessage: ''
   }),
   methods: {
     async showForecast(place) {
       if (place === '') {
         return
       }
-      const { latitude, longitude } = await this.$api.getLocationData(place)
-      const forecastObject = await this.$api.getForecastData(
-        latitude,
-        longitude
-      )
-      this.forecastData.unshift(forecastObject)
-      console.log(this.forecastData)
+      try {
+        const { latitude, longitude } = await this.$api.getLocationData(place)
+        const forecastObject = await this.$api.getForecastData(
+          latitude,
+          longitude
+        )
+        this.forecastData.unshift(forecastObject)
+        console.log(this.forecastData)
+      } catch (e) {
+        console.log(e)
+        if (e) {
+          this.errorMessage =
+            '当てはまる場所が見つかりませんでした。再度入力をお願い致しいます'
+          this.dialog = true
+        } else {
+          this.errorMessage = 'サイトの管理者に問い合わせてしてください'
+          this.dialog = true
+        }
+      }
     }
   }
 }
@@ -89,6 +123,11 @@ form {
   .search-button {
     display: flex;
     text-align: right;
+  }
+}
+.v-dialog {
+  .v-card__text {
+    padding: 24px 20px;
   }
 }
 </style>

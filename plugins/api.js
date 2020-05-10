@@ -45,6 +45,9 @@ class API {
       place +
       `.json?access_token=${process.env.MAP_BOX_API_KEY}&limit=1`
     const locationData = await this.axios.$get(url)
+    if (locationData.features.length === 0) {
+      throw new Error('invaildPlaceError')
+    }
 
     const locationObject = {
       latitude: locationData.features[0].center[1],
