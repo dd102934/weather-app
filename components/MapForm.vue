@@ -43,6 +43,17 @@ export default {
   }),
   methods: {
     async showForecast(latitude, longitude) {
+      // 地図から選択した際に経度に異常な値が入らないようにする
+      if (longitude > 180) {
+        while (longitude > 180) {
+          longitude -= 360
+        }
+      } else if (longitude < -180) {
+        while (longitude < -180) {
+          longitude += 360
+        }
+      }
+
       const forecastObject = await this.$api.getForecastData(
         latitude,
         longitude
