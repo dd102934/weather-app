@@ -58,7 +58,7 @@
     <v-dialog v-model="dialog" max-width="290">
       <v-card>
         <v-card-title class="headline grey lighten-2" primary-title
-          >エラーが発生ました</v-card-title
+          >エラーが発生しました</v-card-title
         >
         <v-card-text py-5>{{ errorMessage }}</v-card-text>
         <v-divider></v-divider>
@@ -101,10 +101,10 @@ export default {
         console.log(e)
         if (e) {
           this.errorMessage =
-            '当てはまる場所が見つかりませんでした。再度入力をお願い致しいます'
+            '当てはまる場所が見つかりませんでした。再度入力をお願い致しいます。'
           this.dialog = true
         } else {
-          this.errorMessage = 'サイトの管理者に問い合わせてしてください'
+          this.errorMessage = 'サイトの管理者に問い合わせてしてください。'
           this.dialog = true
         }
       }
