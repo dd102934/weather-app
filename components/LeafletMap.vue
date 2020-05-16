@@ -3,10 +3,15 @@
     <h1 class="headline font-weight-bold ma-3">
       地図から天気を調べよう！
     </h1>
-    <p>{{ $store.getters['locationData/isLocationData'] }}</p>
+    <v-btn
+      class="mt-4"
+      color="primary"
+      @click="showForecast(locationData.latitude, locationData.longitude)"
+      >検索</v-btn
+    >
     <v-row>
-      <v-col cols="6" sm="9">
-        <no-ssr>
+      <v-col cols="6" sm="8">
+        <client-only>
           <v-card height="100%" width="100%">
             <l-map
               :zoom="zoom"
@@ -17,19 +22,19 @@
               <l-marker :lat-lng="marker"></l-marker>
             </l-map>
           </v-card>
-        </no-ssr>
+        </client-only>
       </v-col>
-      <v-col cols="6" sm="3">
-        <MapForm></MapForm>
+      <v-col cols="6" sm="4">
+        <WeatherCard :forecastData="forecastData"></WeatherCard>
       </v-col>
     </v-row>
   </div>
 </template>
 <script>
-import MapForm from '~/components/MapForm.vue'
+import WeatherCard from '~/components/WeatherCard.vue'
 export default {
   components: {
-    MapForm
+    WeatherCard
   },
   data() {
     return {
@@ -37,10 +42,41 @@ export default {
       center: [35.68, 139.69],
       zoom: 5,
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      marker: [35.68, 139.69]
+      marker: [35.68, 139.69],
+      forecastData: {
+        location: '東京',
+        weather: 'snow',
+        country: 'JP',
+        summary: '晴れ'
+      }
+    }
+  },
+  computed: {
+    locationData() {
+      return this.$store.getters['locationData/isLocationData']
     }
   },
   methods: {
+    async showForecast(latitude, longitude) {
+      // 地図から選択した際に経度に異常な値が入らないようにする
+      console.log(latitude, longitude)
+      if (longitude > 180) {
+        while (longitude > 180) {
+          longitude -= 360
+        }
+      } else if (longitude < -180) {
+        while (longitude < -180) {
+          longitude += 360
+        }
+      }
+
+      const forecastObject = await this.$api.getForecastData(
+        latitude,
+        longitude
+      )
+      this.forecastData = forecastObject
+      console.log(this.forecastData)
+    },
     setLocationInformation(e) {
       console.log(e)
       // 少数第二位までを表示

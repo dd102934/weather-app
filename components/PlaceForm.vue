@@ -27,28 +27,18 @@
       </v-form>
     </div>
     <v-row>
-      <v-col
-        v-for="forecast in forecastData"
-        :key="forecast.index"
-        cols="12"
-        sm="3"
-      >
-        <v-card class="mx-auto" max-width="400">
-          <v-card-title class="pb-0"
-            >場所：{{ forecast.location }}</v-card-title
-          >
-          <v-img
-            class="white--text align-end"
-            max-height="230px"
-            contain
-            :src="require(`@/assets/images/${forecast.weather}.png`)"
-          >
-          </v-img>
-          <v-card-text class="text--primary">
-            <p class="text-left mb-0">国：{{ forecast.country }}</p>
-            <p class="text-left mb-0">{{ forecast.summary }}</p>
-          </v-card-text>
-        </v-card>
+      <v-col cols="6" sm="8">
+        <client-only>
+          <v-card height="100%" width="100%">
+            <l-map :zoom="zoom" :center="center">
+              <l-tile-layer :url="url"></l-tile-layer>
+              <l-marker :lat-lng="marker"></l-marker>
+            </l-map>
+          </v-card>
+        </client-only>
+      </v-col>
+      <v-col cols="6" sm="4">
+        <WeatherCard :forecastData="forecastData"></WeatherCard>
       </v-col>
     </v-row>
     <v-snackbar v-model="snackbar" :top="true" :timeout="snackbarTimeout">
@@ -72,17 +62,30 @@
 </template>
 
 <script>
+import WeatherCard from '~/components/WeatherCard.vue'
 export default {
+  components: {
+    WeatherCard
+  },
   data: () => ({
     valid: false,
     place: '',
-    forecastData: [],
     nameRules: [(v) => !!v || '調べたい場所を入力してください'],
     snackbar: false,
     snackbarMessage: '',
     snackbarTimeout: 1000,
     dialog: false,
-    errorMessage: ''
+    errorMessage: '',
+    center: [35.68, 139.69],
+    zoom: 5,
+    url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+    marker: [35.68, 139.69],
+    forecastData: {
+      location: '東京',
+      weather: 'snow',
+      country: 'JP',
+      summary: '晴れ'
+    }
   }),
   methods: {
     async showForecast(place) {
@@ -91,11 +94,13 @@ export default {
       }
       try {
         const { latitude, longitude } = await this.$api.getLocationData(place)
+        this.center = [latitude, longitude]
+        this.marker = [latitude, longitude]
         const forecastObject = await this.$api.getForecastData(
           latitude,
           longitude
         )
-        this.forecastData.unshift(forecastObject)
+        this.forecastData = forecastObject
         console.log(this.forecastData)
       } catch (e) {
         console.log(e)
