@@ -4,10 +4,20 @@
       地図から検索地を選択
     </h4>
     <div class="ml-10">
-      <p class="mt-4">緯度：{{ lat }}</p>
-      <p>経度：{{ lng }}</p>
+      <p class="mt-4">
+        緯度：{{ $store.getters['locationData/isLocationData'].latitude, }}
+      </p>
+      <p>経度：{{ $store.getters['locationData/isLocationData'].longitude }}</p>
     </div>
-    <v-btn class="mt-4" color="primary" @click="showForecast(lat, lng)"
+    <v-btn
+      class="mt-4"
+      color="primary"
+      @click="
+        showForecast(
+          $store.getters['locationData/isLocationData'].latitude,
+          $store.getters['locationData/isLocationData'].longitude
+        )
+      "
       >検索</v-btn
     >
     <v-row>
@@ -36,14 +46,13 @@
 export default {
   props: ['lat', 'lng'],
   data: () => ({
-    valid: false,
     index: 0,
-    forecastData: [],
-    nameRules: [(v) => !!v || '調べたい場所を入力してください']
+    forecastData: []
   }),
   methods: {
     async showForecast(latitude, longitude) {
       // 地図から選択した際に経度に異常な値が入らないようにする
+      console.log(latitude, longitude)
       if (longitude > 180) {
         while (longitude > 180) {
           longitude -= 360
