@@ -1,20 +1,49 @@
 <template>
   <div class="map-height">
-    <v-card class="mx-auto" max-width="400">
-      <v-card-title class="pb-0"
-        >場所：{{ forecastData.location }}</v-card-title
-      >
-      <v-img
-        class="white--text align-end"
-        max-height="230px"
-        contain
-        :src="require(`@/assets/images/${forecastData.weather}.png`)"
-      >
-      </v-img>
-      <v-card-text class="text--primary">
-        <p class="text-left mb-0">国：{{ forecastData.country }}</p>
-        <p class="text-left mb-0">{{ forecastData.summary }}</p>
+    <v-card class="mx-auto">
+      <v-list-item two-line>
+        <v-list-item-content>
+          <v-list-item-title class="headline"
+            >{{ forecastData.country }} :
+            {{ forecastData.location }}</v-list-item-title
+          >
+          <v-list-item-subtitle>
+            {{ forecastData.summary }}</v-list-item-subtitle
+          >
+        </v-list-item-content>
+      </v-list-item>
+      <v-card-text>
+        <v-row align="center">
+          <v-col class="display-2" cols="6">
+            {{ forecastData.temperature }}&deg;C
+          </v-col>
+          <v-col cols="6">
+            <v-img
+              :src="require(`@/assets/images/${forecastData.weather}.png`)"
+              alt="Sunny image"
+              width="92"
+            ></v-img>
+          </v-col>
+        </v-row>
       </v-card-text>
+
+      <v-list-item>
+        <v-list-item-title>
+          体感温度
+        </v-list-item-title>
+        <v-list-item-subtitle>
+          {{ forecastData.feelsLike }}&deg;C</v-list-item-subtitle
+        >
+      </v-list-item>
+
+      <v-list-item>
+        <v-list-item-title>
+          湿度
+        </v-list-item-title>
+        <v-list-item-subtitle
+          >{{ forecastData.humidity }}%</v-list-item-subtitle
+        >
+      </v-list-item>
     </v-card>
   </div>
 </template>

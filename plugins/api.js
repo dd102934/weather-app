@@ -24,7 +24,9 @@ class API {
       location: forecastData.city.name,
       weather: forecastData.list[10].weather[0].main.toLowerCase(),
       summary: forecastData.list[10].weather[0].description,
-      temperature: forecastData.list[10].main.temp
+      temperature: Math.round(forecastData.list[10].main.temp),
+      feelsLike: forecastData.list[10].main.feels_like,
+      humidity: forecastData.list[10].main.humidity
     }
     console.log(forecastObject)
     return forecastObject

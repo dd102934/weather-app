@@ -26,18 +26,18 @@
         </div>
       </v-form>
     </div>
-    <v-row>
+    <v-row justify="center">
       <v-col cols="6" sm="8">
-        <client-only>
-          <v-card height="100%" width="100%">
+        <v-card height="450px">
+          <client-only>
             <l-map :zoom="zoom" :center="center">
               <l-tile-layer :url="url"></l-tile-layer>
               <l-marker :lat-lng="marker"></l-marker>
             </l-map>
-          </v-card>
-        </client-only>
+          </client-only>
+        </v-card>
       </v-col>
-      <v-col cols="6" sm="4">
+      <v-col v-if="0 !== Object.keys(forecastData).length" cols="6" sm="4">
         <WeatherCard :forecastData="forecastData"></WeatherCard>
       </v-col>
     </v-row>
@@ -45,19 +45,6 @@
       {{ snackbarMessage }}
       <v-btn dark text @click="snackbar = false">閉じる</v-btn>
     </v-snackbar>
-    <v-dialog v-model="dialog" max-width="290">
-      <v-card>
-        <v-card-title class="headline grey lighten-2" primary-title
-          >エラーが発生しました</v-card-title
-        >
-        <v-card-text py-5>{{ errorMessage }}</v-card-text>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="dialog = false">閉じる</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
@@ -73,18 +60,16 @@ export default {
     nameRules: [(v) => !!v || '調べたい場所を入力してください'],
     snackbar: false,
     snackbarMessage: '',
-    snackbarTimeout: 1000,
-    dialog: false,
-    errorMessage: '',
+    snackbarTimeout: 3000,
     center: [35.68, 139.69],
     zoom: 5,
     url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
     marker: [35.68, 139.69],
     forecastData: {
-      location: '東京',
-      weather: 'snow',
-      country: 'JP',
-      summary: '晴れ'
+      // location: '東京',
+      // weather: 'snow',
+      // country: 'JP',
+      // summary: '晴れ'
     }
   }),
   methods: {
@@ -105,12 +90,12 @@ export default {
       } catch (e) {
         console.log(e)
         if (e) {
-          this.errorMessage =
-            '当てはまる場所が見つかりませんでした。再度入力をお願い致しいます。'
-          this.dialog = true
+          this.snackbarMessage =
+            '当てはまる場所が見つかりませんでした。再度入力をお願いします。'
+          this.snackbar = true
         } else {
-          this.errorMessage = 'サイトの管理者に問い合わせてしてください。'
-          this.dialog = true
+          this.snackbarMessage = 'サイトの管理者に問い合わせてしてください。'
+          this.snackbar = true
         }
       }
     }

@@ -4,15 +4,14 @@
       地図から天気を調べよう！
     </h1>
     <v-btn
-      class="mt-4"
       color="primary"
       @click="showForecast(locationData.latitude, locationData.longitude)"
       >検索</v-btn
     >
-    <v-row>
+    <v-row justify="center">
       <v-col cols="6" sm="8">
         <client-only>
-          <v-card height="100%" width="100%">
+          <v-card height="450px">
             <l-map
               :zoom="zoom"
               :center="center"
@@ -24,7 +23,7 @@
           </v-card>
         </client-only>
       </v-col>
-      <v-col cols="6" sm="4">
+      <v-col v-if="0 !== Object.keys(forecastData).length" cols="6" sm="4">
         <WeatherCard :forecastData="forecastData"></WeatherCard>
       </v-col>
     </v-row>
@@ -43,12 +42,7 @@ export default {
       zoom: 5,
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       marker: [35.68, 139.69],
-      forecastData: {
-        location: '東京',
-        weather: 'snow',
-        country: 'JP',
-        summary: '晴れ'
-      }
+      forecastData: {}
     }
   },
   computed: {
