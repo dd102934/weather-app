@@ -2,7 +2,7 @@
   <div>
     <div class="text-center">
       <h1 class="headline font-weight-bold ma-3">
-        場所から明日の天気を調べよう！
+        場所を入力して明日の天気を調べよう！
       </h1>
       <v-form ref="form" v-model="valid" @submit.prevent>
         <div class="search-button">

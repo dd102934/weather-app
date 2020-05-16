@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="headline font-weight-bold ma-3">
-      地図から天気を調べよう！
+      地図から明日の天気を調べよう！
     </h1>
     <v-btn
       color="primary"
@@ -38,10 +38,16 @@ export default {
   data() {
     return {
       // 都庁の緯度、経度[35.68, 139.69]
-      center: [35.68, 139.69],
+      center: [
+        this.$store.getters['locationData/isLocationData'].latitude,
+        this.$store.getters['locationData/isLocationData'].longitude
+      ],
       zoom: 5,
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      marker: [35.68, 139.69],
+      marker: [
+        this.$store.getters['locationData/isLocationData'].latitude,
+        this.$store.getters['locationData/isLocationData'].longitude
+      ],
       forecastData: {}
     }
   },
