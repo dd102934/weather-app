@@ -1,6 +1,15 @@
-# weather
+# 天気検索アプリ
 
-> My classy Nuxt.js project
+> ２つの API ([mapbox](https://docs.mapbox.com/api/)、[openweathermap](https://openweathermap.org/api))を使用した天気検索アプリです
+
+## 使用した技術
+
+- フレームワーク
+  - [Nuxt.js](https://ja.nuxtjs.org/)
+- package
+  - [Chart.js](https://www.chartjs.org/)
+- ホスティングサービス
+  - [Netlify](https://www.netlify.com/)
 
 ## Build Setup
 
