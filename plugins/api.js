@@ -13,11 +13,7 @@ class API {
     const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&lang=ja&APPID=${process.env.OPEN_WEATHER_API_KEY}`
     const forecastData = await this.axios.$get(url)
     console.log(forecastData)
-    console.log(forecastData.list)
-    const index = getUniqueStr(1000)
-    console.log(index)
     const forecastObject = {
-      index,
       latitude,
       longitude,
       country: forecastData.city.country ? forecastData.city.country : '不明',
@@ -29,18 +25,8 @@ class API {
       feelsLike: forecastData.list[10].main.feels_like,
       humidity: forecastData.list[10].main.humidity
     }
-
     console.log(forecastObject)
     return forecastObject
-
-    function getUniqueStr(myStrong) {
-      let strong = 1000
-      if (myStrong) strong = myStrong
-      return (
-        new Date().getTime().toString(16) +
-        Math.floor(strong * Math.random()).toString(16)
-      )
-    }
   }
 
   async getLocationData(place) {
