@@ -27,7 +27,7 @@
       </v-form>
     </div>
     <v-row justify="center">
-      <v-col cols="6" sm="8">
+      <v-col cols="12" sm="6" md="8" lg="8" xl="8">
         <v-card height="450px">
           <client-only>
             <l-map :zoom="zoom" :center="center">
@@ -37,12 +37,17 @@
           </client-only>
         </v-card>
       </v-col>
-      <v-col v-if="0 !== Object.keys(forecastData).length" cols="6" sm="4">
+      <v-col
+        v-if="0 !== Object.keys(forecastData).length"
+        cols="12"
+        sm="6"
+        md="4"
+        lg="4"
+        xl="4"
+      >
         <WeatherCard :forecastData="forecastData"></WeatherCard>
       </v-col>
-    </v-row>
-    <v-row v-if="0 !== Object.keys(forecastData).length" justify="center">
-      <v-col cols="12">
+      <v-col v-if="0 !== Object.keys(forecastData).length" cols="12">
         <LineChart :chart-data="chartData" :options="chartOptions" />
       </v-col>
     </v-row>

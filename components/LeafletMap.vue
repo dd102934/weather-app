@@ -9,7 +9,7 @@
       >検索</v-btn
     >
     <v-row justify="center">
-      <v-col cols="6" sm="8">
+      <v-col cols="12" sm="6" md="8" lg="8" xl="8">
         <client-only>
           <v-card height="450px">
             <l-map
@@ -23,7 +23,14 @@
           </v-card>
         </client-only>
       </v-col>
-      <v-col v-if="0 !== Object.keys(forecastData).length" cols="6" sm="4">
+      <v-col
+        v-if="0 !== Object.keys(forecastData).length"
+        cols="12"
+        sm="6"
+        md="4"
+        lg="4"
+        xl="4"
+      >
         <WeatherCard :forecastData="forecastData"></WeatherCard>
       </v-col>
     </v-row>
