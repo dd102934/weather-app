@@ -1,17 +1,17 @@
 <template>
   <v-layout>
     <v-flex class="text-center">
-      <place-form />
+      <place-search />
     </v-flex>
   </v-layout>
 </template>
 
 <script>
-import PlaceForm from '~/components/PlaceForm.vue'
+import PlaceSearch from '~/components/PlaceSearch.vue'
 
 export default {
   components: {
-    PlaceForm
+    PlaceSearch
   }
 }
 </script>

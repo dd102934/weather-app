@@ -1,16 +1,16 @@
 <template>
   <v-layout>
     <v-flex class="text-center">
-      <leaflet-map />
+      <map-search />
     </v-flex>
   </v-layout>
 </template>
 <script>
-import LeafletMap from '~/components/LeafletMap.vue'
+import MapSearch from '~/components/MapSearch.vue'
 
 export default {
   components: {
-    LeafletMap
+    MapSearch
   }
 }
 </script>
