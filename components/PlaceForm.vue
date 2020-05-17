@@ -61,16 +61,12 @@ export default {
     snackbar: false,
     snackbarMessage: '',
     snackbarTimeout: 3000,
+    // 都庁の緯度、経度[35.68, 139.69]
     center: [35.68, 139.69],
     zoom: 5,
     url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
     marker: [35.68, 139.69],
-    forecastData: {
-      // location: '東京',
-      // weather: 'snow',
-      // country: 'JP',
-      // summary: '晴れ'
-    }
+    forecastData: {}
   }),
   methods: {
     async showForecast(place) {
