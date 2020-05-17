@@ -30,7 +30,14 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/axios', '~/plugins/api'],
+  plugins: [
+    '~/plugins/axios',
+    '~/plugins/api',
+    {
+      src: '~/plugins/vue-chart',
+      ssr: false
+    }
+  ],
   /*
    ** Nuxt.js dev-modules
    */

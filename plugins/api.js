@@ -11,9 +11,9 @@ class API {
 
   async getForecastData(latitude, longitude) {
     const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&lang=ja&APPID=${process.env.OPEN_WEATHER_API_KEY}`
-    const res = await this.axios.$get(url)
-    const forecastData = res
+    const forecastData = await this.axios.$get(url)
     console.log(forecastData)
+    console.log(forecastData.list)
     const index = getUniqueStr(1000)
     console.log(index)
     const forecastObject = {
@@ -25,9 +25,11 @@ class API {
       weather: forecastData.list[10].weather[0].main.toLowerCase(),
       summary: forecastData.list[10].weather[0].description,
       temperature: Math.round(forecastData.list[10].main.temp),
+      weatherData: forecastData.list,
       feelsLike: forecastData.list[10].main.feels_like,
       humidity: forecastData.list[10].main.humidity
     }
+
     console.log(forecastObject)
     return forecastObject
 

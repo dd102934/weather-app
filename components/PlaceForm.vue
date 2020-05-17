@@ -41,6 +41,11 @@
         <WeatherCard :forecastData="forecastData"></WeatherCard>
       </v-col>
     </v-row>
+    <v-row v-if="0 !== Object.keys(forecastData).length" justify="center">
+      <v-col cols="12">
+        <LineChart :chart-data="chartData" :options="chartOptions" />
+      </v-col>
+    </v-row>
     <v-snackbar v-model="snackbar" :top="true" :timeout="snackbarTimeout">
       {{ snackbarMessage }}
       <v-btn dark text @click="snackbar = false">閉じる</v-btn>
@@ -66,8 +71,47 @@ export default {
     zoom: 5,
     url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
     marker: [35.68, 139.69],
-    forecastData: {}
+    forecastData: {},
+    chartDataValues: [],
+    chartLabels: [],
+    chartOptions: {
+      title: {
+        display: false
+      },
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              suggestedMax: 40,
+              suggestedMin: 0,
+              stepSize: 10,
+              callback: (label, index, labels) => label.toLocaleString() + '°C'
+            }
+          }
+        ]
+      },
+      maintainAspectRatio: false,
+      animation: {
+        duration: 1500,
+        easing: 'easeInOutCubic'
+      }
+    }
   }),
+  computed: {
+    chartData() {
+      return {
+        datasets: [
+          {
+            label: '気温°C',
+            data: this.chartDataValues,
+            borderColor: 'rgba(255,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0)'
+          }
+        ],
+        labels: this.chartLabels
+      }
+    }
+  },
   methods: {
     async showForecast(place) {
       if (place === '') {
@@ -82,6 +126,7 @@ export default {
           longitude
         )
         this.forecastData = forecastObject
+        this.createChartData(forecastObject)
         console.log(this.forecastData)
       } catch (e) {
         console.log(e)
@@ -93,6 +138,20 @@ export default {
           this.snackbarMessage = 'サイトの管理者に問い合わせてしてください。'
           this.snackbar = true
         }
+      }
+    },
+    createChartData(forecastObject) {
+      this.chartDataValues = []
+      this.chartLabels = []
+      let date
+      for (let step = 10; step < 18; step++) {
+        if (step === 10) {
+          date = forecastObject.weatherData[step].dt_txt.slice(5, -6) + '時'
+        } else {
+          date = forecastObject.weatherData[step].dt_txt.slice(11, -6) + '時'
+        }
+        this.chartLabels.push(date)
+        this.chartDataValues.push(forecastObject.weatherData[step].main.temp)
       }
     }
   }
@@ -109,11 +168,6 @@ form {
   .search-button {
     display: flex;
     text-align: right;
-  }
-}
-.v-dialog {
-  .v-card__text {
-    padding: 24px 20px;
   }
 }
 </style>
