@@ -43,6 +43,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.text-center {
+  .display-2 {
+    @media screen and (max-width: 400px) {
+      font-size: 2.4rem !important;
+    }
+  }
+}
 .link-button {
   color: #ffffff !important;
   text-decoration: none;
