@@ -37,19 +37,14 @@
           </client-only>
         </v-card>
       </v-col>
-      <v-col
-        v-if="0 !== Object.keys(forecastData).length"
-        cols="12"
-        sm="6"
-        md="4"
-        lg="4"
-        xl="4"
-      >
-        <WeatherCard :forecastData="forecastData"></WeatherCard>
-      </v-col>
-      <v-col v-if="0 !== Object.keys(forecastData).length" cols="12">
-        <LineChart :chart-data="chartData" :options="chartOptions" />
-      </v-col>
+      <template v-if="0 !== Object.keys(forecastData).length">
+        <v-col cols="12" sm="6" md="4" lg="4" xl="4">
+          <WeatherCard :forecastData="forecastData"></WeatherCard>
+        </v-col>
+        <v-col cols="12">
+          <LineChart :chart-data="chartData" :options="chartOptions" />
+        </v-col>
+      </template>
     </v-row>
     <v-snackbar v-model="snackbar" :top="true" :timeout="snackbarTimeout">
       {{ snackbarMessage }}
