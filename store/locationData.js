@@ -1,4 +1,5 @@
 export const state = () => ({
+  // 都庁の緯度、経度[35.68, 139.69]
   latitude: 35.68,
   longitude: 139.24
 })
