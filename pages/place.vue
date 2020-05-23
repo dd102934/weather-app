@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-flex class="text-center">
-      <place-search />
+      <PlaceSearch />
     </v-flex>
   </v-layout>
 </template>
