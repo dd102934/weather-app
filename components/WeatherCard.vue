@@ -45,7 +45,11 @@
 <script>
 export default {
   props: {
-    forecastData: Object
+    forecastData: {
+      type: Object,
+      require: false,
+      default: () => {}
+    }
   }
 }
 </script>

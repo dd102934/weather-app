@@ -10,18 +10,7 @@
     >
     <v-row justify="center">
       <v-col cols="12" sm="6" md="8" lg="8" xl="8">
-        <client-only>
-          <v-card>
-            <l-map
-              :zoom="zoom"
-              :center="center"
-              @click="setLocationInformation($event)"
-            >
-              <l-tile-layer :url="url"></l-tile-layer>
-              <l-marker :lat-lng="marker"></l-marker>
-            </l-map>
-          </v-card>
-        </client-only>
+        <LeafletMap />
       </v-col>
       <v-col
         v-if="0 !== Object.keys(forecastData).length"
@@ -38,22 +27,14 @@
 </template>
 <script>
 import WeatherCard from '~/components/WeatherCard.vue'
+import LeafletMap from '~/components/LeafletMap.vue'
 export default {
   components: {
-    WeatherCard
+    WeatherCard,
+    LeafletMap
   },
   data() {
     return {
-      center: [
-        this.$store.getters['locationData/isLocationData'].latitude,
-        this.$store.getters['locationData/isLocationData'].longitude
-      ],
-      zoom: 5,
-      url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      marker: [
-        this.$store.getters['locationData/isLocationData'].latitude,
-        this.$store.getters['locationData/isLocationData'].longitude
-      ],
       forecastData: {}
     }
   },
@@ -62,10 +43,12 @@ export default {
       return this.$store.getters['locationData/isLocationData']
     }
   },
+  created() {
+    this.$store.dispatch('locationData/initLocationData')
+  },
   methods: {
     async showForecast(latitude, longitude) {
       // 地図から選択した際に経度に異常な値が入らないようにする
-      console.log(latitude, longitude)
       if (longitude > 180) {
         while (longitude > 180) {
           longitude -= 360
@@ -82,25 +65,9 @@ export default {
       )
       this.forecastData = forecastObject
       console.log(this.forecastData)
-    },
-    setLocationInformation(e) {
-      console.log(e)
-      // 少数第二位までを表示
-      const latitude = Math.floor(e.latlng.lat * 100) / 100
-      const longitude = Math.floor(e.latlng.lng * 100) / 100
-      this.marker = [latitude, longitude]
-      this.$store.dispatch('locationData/changeLocationData', {
-        newlatitude: latitude,
-        newlongitude: longitude
-      })
-      console.log(this.$store.getters['locationData/isLocationData'])
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-.vue2leaflet-map {
-  height: 50vh;
-}
-</style>
+<style lang="scss" scoped></style>

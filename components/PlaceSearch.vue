@@ -28,18 +28,11 @@
     </div>
     <v-row justify="center">
       <v-col cols="12" sm="6" md="8" lg="8" xl="8">
-        <v-card>
-          <client-only>
-            <l-map :zoom="zoom" :center="center">
-              <l-tile-layer :url="url"></l-tile-layer>
-              <l-marker :lat-lng="marker"></l-marker>
-            </l-map>
-          </client-only>
-        </v-card>
+        <LeafletMap />
       </v-col>
       <template v-if="0 !== Object.keys(forecastData).length">
         <v-col cols="12" sm="6" md="4" lg="4" xl="4">
-          <WeatherCard :forecastData="forecastData"></WeatherCard>
+          <WeatherCard :forecastData="forecastData" />
         </v-col>
         <v-col cols="12">
           <LineChart :chart-data="chartData" :options="chartOptions" />
@@ -55,9 +48,11 @@
 
 <script>
 import WeatherCard from '~/components/WeatherCard.vue'
+import LeafletMap from '~/components/LeafletMap.vue'
 export default {
   components: {
-    WeatherCard
+    WeatherCard,
+    LeafletMap
   },
   data: () => ({
     valid: false,
@@ -67,10 +62,6 @@ export default {
     snackbarMessage: '',
     snackbarTimeout: 3000,
     // 都庁の緯度、経度[35.68, 139.69]
-    center: [35.68, 139.69],
-    zoom: 5,
-    url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-    marker: [35.68, 139.69],
     forecastData: {},
     chartDataValues: [],
     chartLabels: [],
@@ -112,6 +103,9 @@ export default {
       }
     }
   },
+  created() {
+    this.$store.dispatch('locationData/initLocationData')
+  },
   methods: {
     async showForecast(place) {
       if (place === '') {
@@ -119,8 +113,7 @@ export default {
       }
       try {
         const { latitude, longitude } = await this.$api.getLocationData(place)
-        this.center = [latitude, longitude]
-        this.marker = [latitude, longitude]
+        this.setLocationData(latitude, longitude)
         const forecastObject = await this.$api.getForecastData(
           latitude,
           longitude
@@ -153,6 +146,12 @@ export default {
         this.chartLabels.push(date)
         this.chartDataValues.push(forecastObject.weatherData[step].main.temp)
       }
+    },
+    setLocationData(latitude, longitude) {
+      this.$store.dispatch('locationData/changeLocationData', {
+        newlatitude: latitude,
+        newlongitude: longitude
+      })
     }
   }
 }
@@ -171,7 +170,6 @@ form {
   }
 }
 
-.vue2leaflet-map {
-  height: 50vh;
+.none {
 }
 </style>
