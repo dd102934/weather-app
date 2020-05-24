@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="headline font-weight-bold ma-3">
-      地図から明日の天気を調べよう！
+      明日の天気を調べよう！
     </h1>
     <v-btn
       color="primary"
@@ -11,7 +11,7 @@
     <v-row justify="center">
       <v-col cols="12" sm="6" md="8" lg="8" xl="8">
         <client-only>
-          <v-card height="450px">
+          <v-card>
             <l-map
               :zoom="zoom"
               :center="center"
@@ -99,4 +99,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.vue2leaflet-map {
+  height: 50vh;
+}
+</style>

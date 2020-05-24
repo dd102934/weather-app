@@ -2,7 +2,7 @@
   <div>
     <div class="text-center">
       <h1 class="headline font-weight-bold ma-3">
-        場所を入力して明日の天気を調べよう！
+        明日の天気を調べよう！
       </h1>
       <v-form ref="form" v-model="valid" @submit.prevent>
         <div class="search-button">
@@ -28,7 +28,7 @@
     </div>
     <v-row justify="center">
       <v-col cols="12" sm="6" md="8" lg="8" xl="8">
-        <v-card height="450px">
+        <v-card>
           <client-only>
             <l-map :zoom="zoom" :center="center">
               <l-tile-layer :url="url"></l-tile-layer>
@@ -169,5 +169,9 @@ form {
     display: flex;
     text-align: right;
   }
+}
+
+.vue2leaflet-map {
+  height: 50vh;
 }
 </style>
