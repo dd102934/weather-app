@@ -27,7 +27,7 @@
       </v-form>
     </div>
     <v-row justify="center">
-      <v-col cols="12" sm="6" md="8" lg="8" xl="8">
+      <v-col class="pointer-event" cols="12" sm="6" md="8" lg="8" xl="8">
         <LeafletMap />
       </v-col>
       <template v-if="0 !== Object.keys(forecastData).length">
@@ -169,7 +169,7 @@ form {
     text-align: right;
   }
 }
-
-.none {
+.pointer-event {
+  pointer-events: none;
 }
 </style>
