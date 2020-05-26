@@ -31,7 +31,7 @@
         <LeafletMap />
       </v-col>
       <template v-if="0 !== Object.keys(forecastData).length">
-        <v-col cols="12" sm="6" md="4" lg="2" xl="2">
+        <v-col cols="12" sm="6" md="4" lg="4" xl="2">
           <WeatherCard :forecastData="forecastData" />
         </v-col>
         <v-col cols="12">
